@@ -1,3 +1,4 @@
+
 name: build
 on: [push, pull_request]
 jobs:
@@ -41,7 +42,7 @@ jobs:
         else
           export enable_ccache=on
         fi
-        curl-l https://github.com/blueloveTH/aseprite/releases/download/v0.01/skia.zip --output skia.zip
+        curl -L https://github.com/blueloveTH/aseprite/releases/download/v0.01/skia.zip --output skia.zip
         7z x skia.zip
         cmake -S . -B build -G Ninja \
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
@@ -49,15 +50,15 @@ jobs:
           -DENABLE_CCACHE=$enable_ccache \
           -DLAF_BACKEND=skia \
           -DSKIA_DIR=./skia \
-           -DSKIA_LIBRARY_DIR=./skia/out/Release-x64 \
-           -DSKIA_LIBRARY=./skia/out/Release-x64/skia.lib
+          -DSKIA_LIBRARY_DIR=./skia/out/Release-x64 \
+          -DSKIA_LIBRARY=./skia/out/Release-x64/skia.lib
     - name: Compiling
       shell: bash
       run: |
         cd build && ninja
     - uses: actions/upload-artifact@v3
       with:
-       name: aseprite
-       path: |
-        D:/a/aseprite/aseprite/build/bin/data
-         D:/a/aseprite/aseprite/build/bin/aseprite.exe
+        name: aseprite
+        path: |
+          D:/a/aseprite/aseprite/build/bin/data
+          D:/a/aseprite/aseprite/build/bin/aseprite.exe
